@@ -1,27 +1,33 @@
 # **🌐 LocalChrome**
-### *Your personal virtual web machine — powered by Chromium*  
+### *Your private web virtual machine — open-source, sleek, & fast.*  
 
 ---
 
-🚀 **LocalChrome** is an online virtual machine built on Chromium, designed to give you a smooth, browser-like experience anywhere.  
-Run apps, browse the web, and explore a full virtual desktop environment — all from your browser.  
+🚀 **LocalChrome** is an online virtual machine that lets you choose from **chromium-based browsers** side-by-side, all inside your browser.  
+Test, browse, and embed live browser sessions with ease — no installs required.  
 
 ---
 
 ## ✨ Features
-- 🖥️ **Chromium-Powered Virtual Machine**  
-  A sleek web-based environment with Chromium at its core.  
+- 🌐 **Multiple Browsers**  
+  Switch between Chrome, Firefox, Edge, and more — all instantly available.  
 
-- 🌍 **Tabbed Browser**  
-  Surf the internet as if it’s Chrome, without limits.  
+- 🖥️ **Chromium-Powered Core**  
+  Smooth browsing experience with a Chromium foundation.  
+
+- 🔗 **Embeddable Live API**  
+  Embed real browser sessions directly into your apps and services.  
 
 - ⚡ **Fast & Lightweight**  
-  Optimized for performance while keeping everything simple.  
+  Optimized to handle multiple searches and websites without slowing you down.  
 
-- 🎨 **Modern UI**  
-  A clean, minimal design that feels natural and intuitive.  
+- 🎨 **Modern & Minimal UI**  
+  A clean, intuitive design for a distraction-free workspace.  
 
-- 📖 **Open-Sourced**  
-  Browser sessions are unlimited, meaning you can browse for hours.  
+- 📖 **Fully Open-Source**  
+  Simple, clean, and built for the community.  
 
 ---
+
+Try [**LocalChrome**](https://lcrm.dev)
+  
