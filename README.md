@@ -29,5 +29,6 @@ Test, browse, and embed live browser sessions with ease — no installs required
 
 ---
 
-Try [**LocalChrome**](https://lcrm.dev)
+Try [**LocalChrome**](https://lcrm.dev) today. 
+Join our official Discord server at 
   
