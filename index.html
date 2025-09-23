@@ -1,326 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LocalChrome</title>
-    <link rel="icon" href="https://parsefiles.back4app.com/JPaQcFfEEQ1ePBxbf6wvzkPMEqKYHhPYv8boI1Rc/c4794dd74486313f7ed7c8667fa438ed_BGlzWRRbR8.png" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/brands.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radical</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117;
-            color: #E5E7EB;
-            overflow-x: hidden;
-        }
-        .main-bg {
-            background-image: 
-                radial-gradient(ellipse 50% 80% at 20% 10%, rgba(255, 255, 255, 0.08), transparent),
-                radial-gradient(ellipse 40% 70% at 80% 90%, rgba(255, 255, 255, 0.05), transparent),
-                linear-gradient(180deg, #0d1117 0%, #020202 100%);
-            background-size: cover;
-            position: relative;
-        }
-        .content-wrapper {
-            position: relative;
-            z-index: 2;
-        }
-        header {
-            transition: transform 0.3s ease-in-out;
-        }
-        header.nav-hidden {
-            transform: translateY(-100%);
-        }
-        .capsule-button {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            transition: all 0.2s ease;
-        }
-        .capsule-button:hover {
-            background-color: #2a2a2a;
-            border-color: #555;
-        }
-        .capsule-button.primary {
-            background: linear-gradient(90deg, #333, #1a1a1a);
-            border-color: #444;
-        }
-        .terminal {
-            background: rgba(16, 16, 20, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: background 0.3s ease;
-        }
-        .terminal:hover {
-            background: rgba(16, 16, 20, 0.4);
-        }
-        .terminal-header {
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-        .typewriter-line::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-        .feature-card {
-            background-color: #101014;
-            border: 1px solid #222;
-            position: relative;
+            font-family: "Inter", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
+            background-color: #dfe1e5;
         }
-        .feature-card-bg {
-            content: '';
+
+        .browser-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-bar-container {
+            display: flex;
+            align-items: center;
+            background-color: #dfe1e5;
+            padding: 6px 10px 0;
+            flex-shrink: 0;
+        }
+
+        .tab-bar {
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .tab-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            width: 225px;
+            margin-right: 2px;
+            border-radius: 12px 12px 0 0;
+            color: #3c4043;
+            flex-shrink: 0;
+            position: relative;
+            transition: background-color 0.2s ease;
+        }
+
+        .tab:hover {
+            background-color: #f1f3f4;
+        }
+
+        .tab.active {
+            background-color: #fff;
+            color: #202124;
+        }
+
+        .tab.active:hover {
+            background-color: #fff;
+        }
+
+        .tab-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+        
+        .tab-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 13px;
+            flex-grow: 1;
+        }
+
+        .tab-close {
+            margin-left: auto;
+            color: #5f6368;
+            font-size: 18px;
+            padding: 2px;
+            border-radius: 50%;
+            transition: color 0.1s ease, transform 0.1s ease, background-color 0.1s ease;
+        }
+
+        .tab-close:hover {
+            color: #202124;
+            transform: scale(1.1);
+        }
+
+        .url-bar-container {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-bottom: 1px solid #dfe1e5;
+            padding: 5px 10px;
+        }
+
+        .url-input {
+            flex-grow: 1;
+            padding: 8px 12px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 20px;
+            margin: 0 5px;
+            font-size: 14px;
+            background: #f1f3f4;
+            color: #202124;
+            outline: none;
+            font-family: "Inter";
+            transition: 0.15s;
+        }
+
+        .url-input:focus {
+            background: #fff;
+            box-shadow: 0 0 0 1px #1a73e8;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #5f6368;
+            margin: 0 2px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            padding: 5px;
+            transition: transform 0.1s ease, color 0.1s ease;
+            flex-shrink: 0;
+        }
+
+        .icon-button:hover {
+            transform: scale(1.15);
+            color: #202124;
+        }
+
+        .new-tab-button {
+            padding: 0;
+            cursor: pointer;
+            background: none;
+            color: #5f6368;
+            border: none;
+            font-size: 22px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: transform 0.1s ease, background-color 0.1s ease;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .new-tab-button:hover {
+            transform: scale(1.15);
+        }
+
+        .browser-window {
+            flex-grow: 1;
+            position: relative;
+            background-color: #fff;
+        }
+
+        .browser-window iframe {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15), transparent 40%);
-            transform: scale(0);
-            transition: transform 0.5s ease;
-            z-index: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            visibility: hidden;
+            background-color: #fff;
         }
-        .feature-card:hover .feature-card-bg {
-            transform: scale(1);
-        }
-        .testimonial-card {
-            background-color: #101014;
-            border: 1px solid #222;
+        
+        .browser-window iframe.active {
+            visibility: visible;
         }
     </style>
 </head>
-<body class="main-bg">
-
-    <div class="content-wrapper">
-        <header class="fixed top-0 left-0 right-0 z-20">
-            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <img src="https://parsefiles.back4app.com/JPaQcFfEEQ1ePBxbf6wvzkPMEqKYHhPYv8boI1Rc/c4794dd74486313f7ed7c8667fa438ed_BGlzWRRbR8.png" alt="LocalChrome Logo" class="h-8 w-8">
-                    <span class="text-2xl font-bold text-white">LocalChrome</span>
-                </div>
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="text-gray-400 hover:text-white transition">Features</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">Pricing</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">API</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">Browsers</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">About Us</a>
-                </nav>
-                <a href="#" target="_blank" class="hidden md:flex items-center space-x-2 capsule-button primary text-white font-semibold py-2 px-5 rounded-full text-sm">
-                    <span>Get Started</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </header>
-
-        <main class="pt-28">
-            <section class="text-center md:text-left py-16 lg:py-24">
-                <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h1 class="text-5xl md:text-6xl font-bold mb-6 text-white leading-tight">
-                            A Web-Based<br>Virtual Machine
-                        </h1>
-                        <p class="text-gray-400 text-lg md:text-xl max-w-lg mx-auto md:mx-0 mb-8">
-                            LocalChrome is a chromium-based virtual machine that runs on the web. Feel free to browse any site, change the theme, and embed it on your app or site.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                            <a href="#" target="_blank" class="capsule-button primary text-white font-semibold py-3 px-6 rounded-full">Get Started</a>
-                            <a href="#" class="capsule-button text-gray-300 font-semibold py-3 px-6 rounded-full">Documentation</a>
-                        </div>
-                    </div>
-                    <div id="terminal" class="terminal rounded-xl shadow-2xl p-4 h-64 font-mono text-sm cursor-pointer">
-                        <div class="terminal-header flex items-center gap-2 px-2 pb-3 mb-2 border-b border-gray-700/50">
-                            <span class="h-3 w-3 bg-red-500 rounded-full"></span>
-                            <span class="h-3 w-3 bg-yellow-500 rounded-full"></span>
-                            <span class="h-3 w-3 bg-green-500 rounded-full"></span>
-                        </div>
-                        <div id="terminal-body" class="text-green-400"></div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="py-20">
-                <div class="container mx-auto px-6">
-                    <div class="text-center mb-16 max-w-2xl mx-auto">
-                        <h2 class="text-4xl font-bold text-white">Packed With Hundreds of Features</h2>
-                        <p class="text-gray-400 mt-4 text-lg">From private sessions to developer tools, LocalChrome has APIs for literally everything.</p>
-                    </div>
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="feature-card rounded-2xl p-8">
-                            <div class="feature-card-bg"></div>
-                            <div class="relative z-10">
-                                <div class="text-3xl mb-4 text-violet-400"><i class="fas fa-shield-halved"></i></div>
-                                <h3 class="text-xl font-semibold mb-2 text-white">Encrypted Browsing</h3>
-                                <p class="text-gray-400">All connections are sandboxed and SSL encrypted. Your browsing is completely anonymous.</p>
-                            </div>
-                        </div>
-                        <div class="feature-card rounded-2xl p-8">
-                            <div class="feature-card-bg"></div>
-                            <div class="relative z-10">
-                                <div class="text-3xl mb-4 text-violet-400"><i class="fas fa-bolt"></i></div>
-                                <h3 class="text-xl font-semibold mb-2 text-white">Blazing Fast Speeds</h3>
-                                <p class="text-gray-400">Powered by modern infrastructure to give you a seamless, zero-lag experience.</p>
-                            </div>
-                        </div>
-                        <div class="feature-card rounded-2xl p-8">
-                            <div class="feature-card-bg"></div>
-                            <div class="relative z-10">
-                                <div class="text-3xl mb-4 text-violet-400"><i class="fas fa-code"></i></div>
-                                <h3 class="text-xl font-semibold mb-2 text-white">Developer API</h3>
-                                <p class="text-gray-400">Easily embed our virtual machines in your own application with a simple and powerful API.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-             <section class="py-20">
-                <div class="container mx-auto px-6">
-                    <div class="text-center mb-16 max-w-2xl mx-auto">
-                        <h2 class="text-4xl font-bold text-white">People Love Using LocalChrome</h2>
-                        <p class="text-gray-400 mt-4 text-lg">We're proud to have helped thousands of developers build amazing projects.</p>
-                    </div>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="testimonial-card p-6 rounded-2xl">
-                             <p class="text-gray-300 mb-4">"LocalChrome is unlike typical VMs. The community is also very welcoming and supportive."</p>
-                             <div class="flex items-center space-x-3"><img class="w-10 h-10 rounded-full" src="https://placehold.co/40x40/8b5cf6/fff?text=J" alt="User Avatar"><span class="font-semibold text-white">@johndoe</span></div>
-                        </div>
-                         <div class="testimonial-card p-6 rounded-2xl">
-                             <p class="text-gray-300 mb-4">"I love LocalChrome, their performance has empowered me to make better applications with VM integrated."</p>
-                             <div class="flex items-center space-x-3"><img class="w-10 h-10 rounded-full" src="https://placehold.co/40x40/d946ef/fff?text=V" alt="User Avatar"><span class="font-semibold text-white">@vanessa</span></div>
-                        </div>
-                         <div class="testimonial-card p-6 rounded-2xl">
-                             <p class="text-gray-300 mb-4">"I rate LocalChrome a 5/5 for their ease of use, the selection of browsers, and the pricing."</p>
-                             <div class="flex items-center space-x-3"><img class="w-10 h-10 rounded-full" src="https://placehold.co/40x40/8b5cf6/fff?text=S" alt="User Avatar"><span class="font-semibold text-white">@samkals</span></div>
-                        </div>
-                         <div class="testimonial-card p-6 rounded-2xl">
-                             <p class="text-gray-300 mb-4">"LocalChrome stands out as the best VM platform I have ever used. Easy to use and the docs are very detailed."</p>
-                             <div class="flex items-center space-x-3"><img class="w-10 h-10 rounded-full" src="https://placehold.co/40x40/d946ef/fff?text=T" alt="User Avatar"><span class="font-semibold text-white">@thoth</span></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-
-        <footer class="border-t border-gray-900">
-            <div class="container mx-auto px-6 py-12">
-                 <div class="grid md:grid-cols-12 gap-8">
-                    <div class="md:col-span-4">
-                        <div class="flex items-center space-x-3 mb-4">
-                             <img src="https://parsefiles.back4app.com/JPaQcFfEEQ1ePBxbf6wvzkPMEqKYHhPYv8boI1Rc/c4794dd74486313f7ed7c8667fa438ed_BGlzWRRbR8.png" alt="LocalChrome Logo" class="h-8 w-8">
-                            <span class="text-xl font-bold text-white">LocalChrome</span>
-                        </div>
-                        <p class="text-gray-400 text-sm">Private browsing and web virtual machine.</p>
-                        <div class="flex space-x-4 mt-6">
-                            <a href="#" target="_blank" class="text-gray-500 hover:text-white transition"><i class="fab fa-discord fa-lg"></i></a>
-                            <a href="#" target="_blank" class="text-gray-500 hover:text-white transition"><i class="fab fa-github fa-lg"></i></a>
-                            <a href="#" target="_blank" class="text-gray-500 hover:text-white transition"><i class="fab fa-reddit fa-lg"></i></a>
-                        </div>
-                    </div>
-                    <div class="md:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-                        <div>
-                            <h4 class="font-semibold text-white mb-4">Product</h4>
-                            <ul class="space-y-3 text-sm">
-                                <li><a href="#" class="text-gray-400 hover:text-white transition">Features</a></li>
-                                <li><a href="#" class="text-gray-400 hover:text-white transition">Pricing</a></li>
-                                <li><a href="#" class="text-gray-400 hover:text-white transition">Browsers</a></li>
-                                <li><a href="#" class="text-gray-400 hover:text-white transition">API</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                             <h4 class="font-semibold text-white mb-4">Company</h4>
-                            <ul class="space-y-3 text-sm">
-                                <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
-                                <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
-                                <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                 </div>
-                 <div class="mt-12 pt-8 border-t border-gray-900 flex justify-between items-center">
-                    <p class="text-gray-500 text-sm">&copy; 2024 LocalChrome Inc. All rights reserved.</p>
-                    <div class="flex items-center space-x-2 text-sm text-green-400">
-                        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
-                        <span>All services are online</span>
-                    </div>
-                 </div>
-            </div>
-        </footer>
+<body>
+    <div class="browser-container">
+        <div class="tab-bar-container">
+            <div class="tab-bar" id="tab-bar"></div>
+            <button class="new-tab-button" id="new-tab-btn">+</button>
+        </div>
+        <div class="url-bar-container">
+            <button class="icon-button" id="back-btn"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="icon-button" id="forward-btn"><i class="fa-solid fa-arrow-right"></i></button>
+            <button class="icon-button" id="reload-btn"><i class="fa-solid fa-rotate-right"></i></button>
+            <input type="text" class="url-input" id="url-input" placeholder="Search or type URL" />
+        </div>
+        <div class="browser-window" id="browser-window">
+        </div>
     </div>
+
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.config.js"></script>
     
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const header = document.querySelector('header');
-            let lastScrollY = window.scrollY;
+        const tabBar = document.getElementById('tab-bar');
+        const newTabBtn = document.getElementById('new-tab-btn');
+        const backBtn = document.getElementById('back-btn');
+        const forwardBtn = document.getElementById('forward-btn');
+        const reloadBtn = document.getElementById('reload-btn');
+        const urlInput = document.getElementById('url-input');
+        const browserWindow = document.getElementById('browser-window');
 
-            window.addEventListener('scroll', () => {
-                if (lastScrollY < window.scrollY && window.scrollY > 100) {
-                    header.classList.add('nav-hidden');
-                } else {
-                    header.classList.remove('nav-hidden');
+        let tabs = [];
+        let activeTabId = null;
+
+        const getFavicon = (url) => `https://www.google.com/s2/favicons?sz=64&domain_url=${url}`;
+
+        const renderTabs = () => {
+            tabBar.innerHTML = '';
+            tabs.forEach(tab => {
+                const tabEl = document.createElement('div');
+                tabEl.className = 'tab';
+                tabEl.dataset.id = tab.id;
+                if (tab.id === activeTabId) {
+                    tabEl.classList.add('active');
                 }
-                lastScrollY = window.scrollY;
+
+                tabEl.innerHTML = `
+                    <img class="tab-icon" src="${tab.icon}" alt="">
+                    <span class="tab-title">${tab.title}</span>
+                    <span class="tab-close">×</span>
+                `;
+                
+                tabEl.addEventListener('click', () => switchTab(tab.id));
+                tabEl.querySelector('.tab-close').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeTab(tab.id);
+                });
+
+                tabBar.appendChild(tabEl);
+            });
+        };
+        
+        const getActiveTab = () => tabs.find(t => t.id === activeTabId);
+
+        const switchTab = (id) => {
+            if (activeTabId === id) return;
+            activeTabId = id;
+            
+            tabs.forEach(tab => {
+                const iframe = document.getElementById(`iframe-${tab.id}`);
+                if (iframe) {
+                     iframe.classList.toggle('active', tab.id === activeTabId);
+                }
             });
 
-            const terminal = document.getElementById('terminal');
-            const terminalBody = document.getElementById('terminal-body');
-            const lines = [
-                "> Encrypted browsing using static...",
-                "✓ Authenticating user...",
-                "✓ Checking key permissions...",
-                "✓ Live Browsers loaded...",
-                "✓ Validating session...",
-                "✓ Finalizing connection...",
-                "> Response: Hello! How can I assist you today?"
-            ];
+            const activeTab = getActiveTab();
+            if (activeTab) {
+                urlInput.value = activeTab.displayUrl || '';
+            }
+            
+            renderTabs();
+        };
 
-            let lineIndex = 0;
-            let charIndex = 0;
+        const createTab = (url = 'about:blank', makeActive = true) => {
+            const newTab = {
+                id: Date.now(),
+                url: url === 'about:blank' ? '' : url,
+                displayUrl: url === 'about:blank' ? '' : url,
+                title: 'New Tab',
+                icon: getFavicon(url),
+            };
 
-            function typeWriter() {
-                if (lineIndex < lines.length) {
-                    const currentLine = lines[lineIndex];
-                    if (charIndex < currentLine.length) {
-                        const lineEl = document.getElementById(`line-${lineIndex}`) || document.createElement('div');
-                        if(!document.getElementById(`line-${lineIndex}`)){
-                            lineEl.id = `line-${lineIndex}`;
-                            lineEl.className = 'typewriter-line';
-                            terminalBody.appendChild(lineEl);
-                        }
-                        lineEl.innerHTML = currentLine.substring(0, charIndex + 1);
-                        charIndex++;
-                        setTimeout(typeWriter, Math.random() * 50 + 20);
-                    } else {
-                        const lineEl = document.getElementById(`line-${lineIndex}`);
-                        lineEl.classList.remove('typewriter-line'); // remove cursor from completed line
-                        lineIndex++;
-                        charIndex = 0;
-                        setTimeout(typeWriter, 500); // pause before next line
+            const activeIndex = tabs.findIndex(tab => tab.id === activeTabId);
+            if (activeIndex !== -1) {
+                tabs.splice(activeIndex + 1, 0, newTab);
+            } else {
+                tabs.push(newTab);
+            }
+
+            const iframe = document.createElement('iframe');
+            iframe.id = `iframe-${newTab.id}`;
+            iframe.addEventListener('load', () => {
+                 try {
+                    const newTitle = iframe.contentDocument.title;
+                    if (newTitle) {
+                        newTab.title = newTitle;
                     }
+                    const newUrl = iframe.contentWindow.location.href;
+                    if (newUrl && newUrl !== 'about:blank') {
+                        const decodedUrl = __uv$config.decodeUrl(newUrl.split(__uv$config.prefix).pop());
+                        newTab.url = decodedUrl;
+                        newTab.displayUrl = decodedUrl;
+                        newTab.icon = getFavicon(decodedUrl);
+                        if(newTab.id === activeTabId) urlInput.value = decodedUrl;
+                    }
+                } catch (e) {
+                    console.error("Could not access iframe content:", e);
+                } finally {
+                    renderTabs();
+                }
+            });
+            browserWindow.appendChild(iframe);
+            
+            if (makeActive) {
+                switchTab(newTab.id);
+            }
+
+            if (url !== 'about:blank') {
+                navigate(url, newTab.id);
+            }
+
+            renderTabs();
+        };
+
+        const closeTab = (id) => {
+            const index = tabs.findIndex(tab => tab.id === id);
+            if (index < 0) return;
+
+            const iframe = document.getElementById(`iframe-${id}`);
+            if (iframe) iframe.remove();
+            
+            const wasActive = activeTabId === id;
+            tabs.splice(index, 1);
+
+            if (tabs.length === 0) {
+                createTab();
+                return;
+            }
+
+            if (wasActive) {
+                const newActiveIndex = Math.max(0, index - 1);
+                switchTab(tabs[newActiveIndex].id);
+            }
+            
+            renderTabs();
+        };
+
+        const navigate = (url, tabId = activeTabId) => {
+            const tabToNavigate = tabs.find(t => t.id === tabId);
+            if (!tabToNavigate) return;
+            
+            const iframe = document.getElementById(`iframe-${tabId}`);
+            if (!iframe) return;
+
+            let finalUrl = url;
+            try {
+                new URL(url);
+            } catch {
+                if (!url.includes('.') && !url.startsWith('localhost')) {
+                   finalUrl = `https://www.google.com/search?q=${encodeURIComponent(url)}`;
+                } else if (!url.startsWith('http')) {
+                   finalUrl = `https://${url}`;
                 }
             }
 
-            typeWriter();
-            
-            terminal.addEventListener('click', () => {
-                terminal.style.transition = 'background 0.3s ease, transform 0.3s ease';
-                terminal.style.background = 'rgba(16, 16, 20, 0.2)';
-                terminal.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    terminal.style.background = 'rgba(16, 16, 20, 0.6)';
-                    terminal.style.transform = 'scale(1)';
-                }, 300);
-            });
-        });
-    </script>
+            tabToNavigate.url = finalUrl;
+            tabToNavigate.displayUrl = url;
+            tabToNavigate.icon = getFavicon(finalUrl);
+            if (tabId === activeTabId) {
+                urlInput.value = url;
+            }
 
+            iframe.src = __uv$config.prefix + __uv$config.encodeUrl(finalUrl);
+            renderTabs();
+        };
+
+        newTabBtn.addEventListener('click', () => createTab());
+        
+        urlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                navigate(urlInput.value);
+            }
+        });
+        
+        backBtn.addEventListener('click', () => {
+            const activeIframe = document.querySelector('iframe.active');
+            if(activeIframe) activeIframe.contentWindow.history.back();
+        });
+        
+        forwardBtn.addEventListener('click', () => {
+            const activeIframe = document.querySelector('iframe.active');
+            if(activeIframe) activeIframe.contentWindow.history.forward();
+        });
+        
+        reloadBtn.addEventListener('click', () => {
+            const activeIframe = document.querySelector('iframe.active');
+            if(activeIframe) activeIframe.contentWindow.location.reload();
+        });
+
+        createTab('https://www.google.com/webhp?igu=1');
+    </script>
 </body>
 </html>
+
 
